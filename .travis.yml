@@ -1,24 +1,22 @@
 language: node_js
 node_js:
-  - "12.7.0"
-
+- 12.7.0
 before_install:
-  - npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
-
+- npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
 jobs:
   include:
-    - stage: lint
-      script: npm run lint
-    - stage: test
-      script: npm run test:coverage
-
+  - stage: lint
+    script: npm run lint
+  - stage: test
+    script: npm run test:coverage
 deploy:
   on:
     branch: master
   provider: npm
-  email: $NPM_PUBLISH_EMAIL
-  api_key: $NPM_TOKEN
-
+  email: "$NPM_PUBLISH_EMAIL"
+  api_key: "$NPM_TOKEN"
 notifications:
-  email:
-    - $NPM_PUBLISH_EMAIL
+  slack:
+    rooms:
+      - secure: "H6MxWm4CeFxooiZDQhrPcvmXrbke0i+tXvMZYu9goLtVvgA9erraBCaG9vsgmHT8yeqOVaMy/GbE4TAyLVD4K6b8N7KIPgNQF2nNu4EFe0sFxWC65Li5g+tzkobbW9bgLtB3xegH+Obmf9dOFXlse5p3ofN0KZ9UYWz+xP8i6/KebwymjFRC2KCeSp2ihsXDoJFvIQUWF0B/S/xQzI6GGL87hq6kP3aTY5nFSC70ho6yuew4Wz9P7o3uzZD2GcfN7qZpiR2bY1U2EX+IYnIomM1H4F2CRXZPne5qig1qY6eJAb4f772SUlyBgsDrmL0+kWQO/FcD/gTDJD3fQSIMQe3JoifqCLgtcsMbUWbolYbup+w46IcmORzUKPWkchpwlzh/Am/A6Gho+Wyg5zI32WCUdftUybneRP1ZMvn2JaHr2AAt5mJ07QZHN5n3NHF/39Tazk8z7bqkwWI3C72ysEtmWf/5nviVnhPDkR3rjK8rvtNpebN1ypWd8RcHUHc+nYpzlQTSiu8WixGr/SoCOkuzewAIlQveYSxquw0gOHd3VL1HJvBIa4aA3uhAjdhZfjQypJDVKLwxcWCURkxvfC4msSnHk32tjOkqYW+Np4i/MLeEhOqIo/+fnqlAaM1Cb9hsqwMloqudC5dsPmTypL5T/3VUJRSjxbDxt5jOP7w="
+    on_success: change
