@@ -1,0 +1,48 @@
+{
+  "name": "@diegoh/api-template",
+  "version": "1.0.0",
+  "description": "Template project for node projects",
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "NODE_ENV=development nodemon --exec npm run start",
+    "test:unit": "NODE_ENV=test mocha 'src/**/*.spec.js'",
+    "test:unit:watch": "npm run test:unit -- --watch",
+    "test:coverage": "nyc npm run test:unit",
+    "test:integration": "NODE_ENV=test mocha 'test/integration/**/*.spec.js'",
+    "lint": "eslint . --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diegoh/api-template.git"
+  },
+  "author": "Diego Herrera",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diegoh/api-template/issues"
+  },
+  "homepage": "https://github.com/diegoh/api-template#readme",
+  "devDependencies": {
+    "eslint": "^6.0.1",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "husky": "^3.0.0",
+    "mocha": "^6.1.4",
+    "nodemon": "^1.19.1",
+    "nyc": "^14.1.1",
+    "prettier": "^1.18.2",
+    "snyk": "^1.199.2",
+    "supertest": "^4.0.2",
+    "testdouble": "^3.12.0"
+  },
+  "dependencies": {
+    "@diegoh/logger": "^1.6.0",
+    "@diegoh/webserver": "^1.5.1",
+    "@hapi/joi": "^15.1.0",
+    "@koa/router": "^8.0.0",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-helmet": "^4.2.0",
+    "winston": "^3.2.1"
+  }
+}
