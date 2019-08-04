@@ -31,6 +31,7 @@
     "nodemon": "^1.19.1",
     "nyc": "^14.1.1",
     "prettier": "^1.18.2",
+    "snyk": "^1.208.0",
     "supertest": "^4.0.2",
     "testdouble": "^3.12.0"
   },
