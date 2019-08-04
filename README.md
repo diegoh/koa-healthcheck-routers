@@ -1,7 +1,7 @@
-# @diegoh/api-template
+# @diegoh/health-handler
 
-[![Build Status](https://travis-ci.com/diegoh/template-nodejs.svg?token=ZLY5YzDHniMuVKy289qj&branch=master)](https://travis-ci.com/diegoh/api-template)
+[![Build Status](https://travis-ci.com/diegoh/health-handler.svg?token=ZLY5YzDHniMuVKy289qj&branch=master)](https://travis-ci.com/diegoh/health-handler)
 
-Starter project for node APIs using koa.js
+This is a koa handler for adding a `/health` endpoint to an API
 
 Add `NPM_TOKEN` and `NPM_EMAIL` as secrets to travis settings for each repo.

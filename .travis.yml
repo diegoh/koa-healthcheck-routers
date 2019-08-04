@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "12.4.0"
+  - "12.7.0"
 
 before_install:
   - npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
@@ -12,13 +12,16 @@ jobs:
     - stage: test
       script: npm run test:coverage
 
-# deploy:
-#   on:
-#     branch: master
-#   provider: npm
-#   email: $NPM_PUBLISH_EMAIL
-#   api_key: $NPM_TOKEN
+deploy:
+  on:
+    branch: master
+  provider: npm
+  email: $NPM_PUBLISH_EMAIL
+  api_key: $NPM_TOKEN
 
 notifications:
   email:
     - $NPM_PUBLISH_EMAIL
+  slack:
+    rooms:
+      - diego-qsg3460:bjoicwRP22vx7c9KRzyAMoAF#builds

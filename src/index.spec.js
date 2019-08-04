@@ -1,49 +1,92 @@
-const assert = require('assert');
 const td = require('testdouble');
+const assert = require('assert');
 
 describe('src/index', () => {
-  let startServer;
-  let router;
+  let handler;
   let logger;
-  let config;
+  let packageJson;
+
+  const name = 'mock-api-name';
+  const version = '9000.0.1';
+  const health = {
+    name,
+    version,
+    success: true
+  };
 
   beforeEach(() => {
+    packageJson = {
+      name,
+      version
+    };
+
+    td.replace('../../../package.json', packageJson);
     logger = td.replace('@diegoh/logger');
-    startServer = td.replace('@diegoh/webserver');
-    router = td.replace('./router');
-    config = require('./config');
+    handler = require('./index');
   });
 
   afterEach(() => {
     td.reset();
   });
 
-  it('starts the server', () => {
-    require('./index');
-    td.verify(
-      startServer(
-        {
-          port: config.server.port
-        },
-        router.routes(),
-        router.allowedMethods()
-      )
-    );
+  it('exports a function', () => {
+    assert.strictEqual(typeof handler, 'function');
   });
 
-  describe('error handling', () => {
-    it('logs an error message', () => {
-      const error = new Error('Oh no!');
-      td.when(startServer(), { ignoreExtraArgs: true }).thenThrow(error);
+  describe('happy path', () => {
+    it('sets the expected health response', async () => {
+      const ctx = {};
+      const next = td.function('next()');
 
-      try {
-        require('./index');
-        assert.fail('should have thrown');
-      } catch (e) {
-        assert.strictEqual(e.message, 'Oh no!');
-      }
+      await handler(ctx, next);
 
-      td.verify(logger.error(error));
+      assert.deepStrictEqual(ctx.body, health);
+    });
+    it('sets the response code to 200', async () => {
+      const ctx = {};
+      const next = td.function('next()');
+
+      await handler(ctx, next);
+
+      assert.strictEqual(ctx.status, 200);
+    });
+    it('calls the next middleware', async () => {
+      const ctx = {};
+      const next = td.function('next()');
+
+      await handler(ctx, next);
+
+      td.verify(next(), { times: 1 });
+    });
+  });
+
+  describe('logs', () => {
+    it('logs the call to the handler', async () => {
+      const ctx = {};
+      const next = td.function('next()');
+
+      await handler(ctx, next);
+
+      td.verify(
+        logger.info({
+          code: `${packageJson.name}:HEALTH:0001`,
+          message: 'Called health endpoint'
+        })
+      );
+    });
+    it('logs upon success', async () => {
+      const ctx = {};
+      const next = td.function('next()');
+
+      await handler(ctx, next);
+
+      td.verify(
+        logger.info({
+          code: `${packageJson.name}:HEALTH:0002`,
+          message: 'Health OK',
+          health
+        })
+      );
     });
   });
 });
