@@ -1,7 +1,7 @@
 {
-  "name": "@diegoh/health-handler",
+  "name": "@diegoh/healthcheck",
   "version": "1.0.0",
-  "description": "Koa handler for adding a health check endpoint to an API",
+  "description": "Handler for adding a health check endpoint to an API",
   "main": "./src/index.js",
   "scripts": {
     "start": "node src/index.js",
@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/diegoh/health-handler.git"
+    "url": "git+https://github.com/diegoh/healthcheck.git"
   },
   "author": "Diego Herrera",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/diegoh/health-handler/issues"
+    "url": "https://github.com/diegoh/healthcheck/issues"
   },
-  "homepage": "https://github.com/diegoh/health-handler#readme",
+  "homepage": "https://github.com/diegoh/healthcheck#readme",
   "devDependencies": {
     "eslint": "^6.0.1",
     "eslint-config-prettier": "^6.0.0",
@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@diegoh/logger": "^1.6.0",
+    "@koa/router": "^8.0.0",
     "koa": "^2.7.0",
     "koa-helmet": "^4.2.0"
   }
