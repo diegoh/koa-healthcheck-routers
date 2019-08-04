@@ -10,7 +10,8 @@
     "test:unit:watch": "npm run test:unit -- --watch",
     "test:coverage": "nyc npm run test:unit",
     "lint": "eslint .",
-    "lint-fix": "eslint . --fix"
+    "lint-fix": "eslint . --fix",
+    "snyk": "snyk test"
   },
   "repository": {
     "type": "git",
