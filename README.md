@@ -11,19 +11,17 @@ This is a koa handler for adding a `/healthcheck` endpoint to an API
 3. Request a code review.
 4. **Squash merge** your commits and keep things tidy.
 
-### Unit Tests
+## Unit Tests
 
 `npm run test:unit`
 
-### Coverage
-
 `npm run test:coverage`
 
-### Lint
+## Lint
 
 `npm run lint` or `npm run lint-fix` to automatically fix any linting issues.
 
-### CI
+## CI
 
 This project uses Travis CI.
 
