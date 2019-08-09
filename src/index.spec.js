@@ -1,92 +1,29 @@
-const td = require('testdouble');
+const KoaRouter = require('@koa/router');
 const assert = require('assert');
+const td = require('testdouble');
 
 describe('src/index', () => {
-  let handler;
-  let logger;
-  let packageJson;
-
-  const name = 'mock-api-name';
-  const version = '9000.0.1';
-  const health = {
-    name,
-    version,
-    success: true
-  };
+  let router;
+  let koaRouter;
 
   beforeEach(() => {
-    packageJson = {
-      name,
-      version
-    };
+    koaRouter = td.replace('@koa/router');
+    koaRouter.prototype.get = td.function('router.get()');
 
-    td.replace('../../../package.json', packageJson);
-    logger = td.replace('@diegoh/logger');
-    handler = require('./index');
+    td.replace('./get', 'get handler');
+    router = require('./index');
   });
-
   afterEach(() => {
     td.reset();
   });
 
-  it('exports a function', () => {
-    assert.strictEqual(typeof handler, 'function');
+  it('exports a router', () => {
+    assert.ok(router instanceof KoaRouter);
   });
 
-  describe('happy path', () => {
-    it('sets the expected health response', async () => {
-      const ctx = {};
-      const next = td.function('next()');
-
-      await handler(ctx, next);
-
-      assert.deepStrictEqual(ctx.body, health);
-    });
-    it('sets the response code to 200', async () => {
-      const ctx = {};
-      const next = td.function('next()');
-
-      await handler(ctx, next);
-
-      assert.strictEqual(ctx.status, 200);
-    });
-    it('calls the next middleware', async () => {
-      const ctx = {};
-      const next = td.function('next()');
-
-      await handler(ctx, next);
-
-      td.verify(next(), { times: 1 });
-    });
-  });
-
-  describe('logs', () => {
-    it('logs the call to the handler', async () => {
-      const ctx = {};
-      const next = td.function('next()');
-
-      await handler(ctx, next);
-
-      td.verify(
-        logger.info({
-          code: `${packageJson.name}:HEALTH:0001`,
-          message: 'Called health endpoint'
-        })
-      );
-    });
-    it('logs upon success', async () => {
-      const ctx = {};
-      const next = td.function('next()');
-
-      await handler(ctx, next);
-
-      td.verify(
-        logger.info({
-          code: `${packageJson.name}:HEALTH:0002`,
-          message: 'Health OK',
-          health
-        })
-      );
+  describe('health router', () => {
+    it('sets up a get endpoint for /healthcheck', () => {
+      td.verify(router.get('/healthcheck', 'get handler'));
     });
   });
 });
