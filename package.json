@@ -1,7 +1,7 @@
 {
-  "name": "@diegoh/health-handler",
-  "version": "1.0.0",
-  "description": "Koa handler for adding a health check endpoint to an API",
+  "name": "@diegoh/healthcheck",
+  "version": "1.1.0",
+  "description": "Handler for adding a health check endpoint to an API",
   "main": "./src/index.js",
   "scripts": {
     "start": "node src/index.js",
@@ -10,18 +10,19 @@
     "test:unit:watch": "npm run test:unit -- --watch",
     "test:coverage": "nyc npm run test:unit",
     "lint": "eslint .",
-    "lint-fix": "eslint . --fix"
+    "lint-fix": "eslint . --fix",
+    "snyk": "snyk test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/diegoh/health-handler.git"
+    "url": "git+https://github.com/diegoh/healthcheck.git"
   },
   "author": "Diego Herrera",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/diegoh/health-handler/issues"
+    "url": "https://github.com/diegoh/healthcheck/issues"
   },
-  "homepage": "https://github.com/diegoh/health-handler#readme",
+  "homepage": "https://github.com/diegoh/healthcheck#readme",
   "devDependencies": {
     "eslint": "^6.0.1",
     "eslint-config-prettier": "^6.0.0",
@@ -31,11 +32,13 @@
     "nodemon": "^1.19.1",
     "nyc": "^14.1.1",
     "prettier": "^1.18.2",
+    "snyk": "^1.208.0",
     "supertest": "^4.0.2",
     "testdouble": "^3.12.0"
   },
   "dependencies": {
     "@diegoh/logger": "^1.6.0",
+    "@koa/router": "^8.0.0",
     "koa": "^2.7.0",
     "koa-helmet": "^4.2.0"
   }
