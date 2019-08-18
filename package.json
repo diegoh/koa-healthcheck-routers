@@ -1,6 +1,6 @@
 {
   "name": "@diegoh/healthcheck",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Handler for adding a health check endpoint to an API",
   "main": "./src/index.js",
   "scripts": {
