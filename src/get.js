@@ -1,5 +1,5 @@
 const logger = require('@diegoh/logger');
-const { name, version } = require('../../../package.json');
+const { name, version } = require('../package.json');
 
 const logCall = () =>
   logger.info({
@@ -18,9 +18,9 @@ module.exports = async (ctx, next) => {
   logCall();
 
   const health = {
+    success: true,
     name,
-    version,
-    success: true
+    version
   };
 
   ctx.body = health;

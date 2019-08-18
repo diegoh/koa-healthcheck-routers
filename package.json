@@ -1,14 +1,13 @@
 {
   "name": "@diegoh/healthcheck",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Handler for adding a health check endpoint to an API",
   "main": "./src/index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "NODE_ENV=development nodemon --exec npm run start",
     "test:unit": "NODE_ENV=test mocha 'src/**/*.spec.js'",
     "test:unit:watch": "npm run test:unit -- --watch",
     "test:coverage": "nyc npm run test:unit",
+    "test:integration": "NODE_ENV=test mocha 'test/integration/**/*.spec.js'",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "snyk": "snyk test"
@@ -23,9 +22,18 @@
     "url": "https://github.com/diegoh/healthcheck/issues"
   },
   "homepage": "https://github.com/diegoh/healthcheck#readme",
+  "dependencies": {
+    "@diegoh/logger": "^1.6.0",
+    "@koa/router": "^8.0.0",
+    "koa-helmet": "^4.2.0",
+    "koa": "^2.7.0"
+  },
   "devDependencies": {
-    "eslint": "^6.0.1",
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-mocha": "^6.0.0",
     "eslint-plugin-prettier": "^3.1.0",
     "husky": "^3.0.2",
     "mocha": "^6.1.4",
@@ -35,11 +43,5 @@
     "snyk": "^1.208.0",
     "supertest": "^4.0.2",
     "testdouble": "^3.12.0"
-  },
-  "dependencies": {
-    "@diegoh/logger": "^1.6.0",
-    "@koa/router": "^8.0.0",
-    "koa": "^2.7.0",
-    "koa-helmet": "^5.0.0"
   }
 }

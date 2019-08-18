@@ -8,10 +8,11 @@ describe('src/get', () => {
 
   const name = 'mock-api-name';
   const version = '9000.0.1';
+
   const health = {
+    success: true,
     name,
-    version,
-    success: true
+    version
   };
 
   beforeEach(() => {
@@ -20,7 +21,7 @@ describe('src/get', () => {
       version
     };
 
-    td.replace('../../../package.json', packageJson);
+    td.replace('../package.json', packageJson);
     logger = td.replace('@diegoh/logger');
     handler = require('./get');
   });
@@ -34,7 +35,7 @@ describe('src/get', () => {
   });
 
   describe('happy path', () => {
-    it('sets the expected health response', async () => {
+    it('sets the expected response', async () => {
       const ctx = {};
       const next = td.function('next()');
 

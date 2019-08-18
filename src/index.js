@@ -3,6 +3,6 @@ const handler = require('./get');
 
 const router = new Router();
 
-router.get('/healthcheck', handler);
+router.get('/health', handler);
 
 module.exports = router;
