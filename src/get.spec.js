@@ -4,10 +4,9 @@ const assert = require('assert');
 describe('src/get', () => {
   let handler;
   let logger;
-  let packageJson;
 
-  const name = 'mock-api-name';
-  const version = '9000.0.1';
+  const name = process.env.npm_package_name;
+  const version = process.env.npm_package_version;
 
   const health = {
     success: true,
@@ -16,12 +15,6 @@ describe('src/get', () => {
   };
 
   beforeEach(() => {
-    packageJson = {
-      name,
-      version
-    };
-
-    td.replace('../package.json', packageJson);
     logger = td.replace('@diegoh/logger');
     handler = require('./get');
   });
@@ -70,7 +63,7 @@ describe('src/get', () => {
 
       td.verify(
         logger.info({
-          code: `${packageJson.name}:HEALTH:0001`,
+          code: `${name}:HEALTH:0001`,
           message: 'Called health endpoint'
         })
       );
@@ -83,7 +76,7 @@ describe('src/get', () => {
 
       td.verify(
         logger.info({
-          code: `${packageJson.name}:HEALTH:0002`,
+          code: `${name}:HEALTH:0002`,
           message: 'Health OK',
           health
         })

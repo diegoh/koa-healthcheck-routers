@@ -1,7 +1,6 @@
 const logger = require('@diegoh/logger');
-const { name, version } = require('../package.json');
 
-const logCall = () =>
+const logCall = name =>
   logger.info({
     code: `${name}:HEALTH:0001`,
     message: 'Called health endpoint'
@@ -9,13 +8,16 @@ const logCall = () =>
 
 const logOk = health =>
   logger.info({
-    code: `${name}:HEALTH:0002`,
+    code: `${health.name}:HEALTH:0002`,
     message: 'Health OK',
     health
   });
 
 module.exports = async (ctx, next) => {
-  logCall();
+  const name = process.env.npm_package_name;
+  const version = process.env.npm_package_version;
+
+  logCall(name);
 
   const health = {
     success: true,
