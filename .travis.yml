@@ -11,6 +11,7 @@ jobs:
       script: npm run lint
     - stage: test
       script: npm run test:coverage
+      script: npm run test:integration
     - stage: security
       if: branch = master
       script: snyk test
