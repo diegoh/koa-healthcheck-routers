@@ -22,8 +22,8 @@ describe('src/index', () => {
   });
 
   describe('health router', () => {
-    it('sets up a get endpoint for /healthcheck', () => {
-      td.verify(router.get('/healthcheck', 'get handler'));
+    it('sets up a get endpoint for /health', () => {
+      td.verify(router.get('/health', 'get handler'));
     });
   });
 });
