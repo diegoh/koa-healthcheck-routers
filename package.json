@@ -25,10 +25,14 @@
   "dependencies": {
     "@diegoh/logger": "^1.6.0",
     "@koa/router": "^8.0.0",
+    "koa": "^2.7.0",
     "koa-helmet": "^4.2.0",
-    "koa": "^2.7.0"
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
   },
   "devDependencies": {
+    "@types/koa-bodyparser": "^4.3.0",
+    "@types/node": "^13.7.1",
     "eslint": "^6.1.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.0.0",
@@ -42,6 +46,8 @@
     "prettier": "^1.18.2",
     "snyk": "^1.208.0",
     "supertest": "^4.0.2",
-    "testdouble": "^3.12.0"
+    "testdouble": "^3.12.0",
+    "tslint": "^6.0.0",
+    "tslint-config-airbnb": "^5.11.2"    
   }
 }
