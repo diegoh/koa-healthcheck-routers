@@ -1,0 +1,11 @@
+{
+  "require": ["ts-node/register/transpile-only", "source-map-support/register"],
+  "all": true,
+  "cache": false,
+  "extension": [".ts", ".tsx"],
+  "report-dir": "misc/reports/coverage",
+  "temp-dir": "misc/reports/.coverage",
+  "include": ["src/**/*.ts"],
+  "exclude": ["**/*.spec.ts", "**/*.d.ts"],
+  "reporter": ["text", "lcovonly"]
+}

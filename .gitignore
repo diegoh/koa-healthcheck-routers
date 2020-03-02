@@ -60,7 +60,9 @@ typings/
 # next.js build output
 .next
 
+dist
+maps
 misc
-test/.coverage
-test/coverage
+.coverage
+coverage
 .DS_Store
