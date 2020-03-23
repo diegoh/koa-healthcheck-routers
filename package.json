@@ -39,7 +39,7 @@
     "mocha": "^7.0.0",
     "nodemon": "^2.0.0",
     "nyc": "^15.0.0",
-    "prettier": "^1.18.2",
+    "prettier": "^2.0.1",
     "snyk": "^1.208.0",
     "supertest": "^4.0.2",
     "testdouble": "^3.12.0"
