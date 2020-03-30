@@ -1,0 +1,6 @@
+.git
+.coverage
+dist
+misc
+log
+coverage
