@@ -5,7 +5,6 @@
     "module": "commonjs",
     "pretty": true,
     "experimentalDecorators": true,
-
     "traceResolution": true,
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true,
