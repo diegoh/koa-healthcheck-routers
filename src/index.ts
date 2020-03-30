@@ -4,9 +4,7 @@ import { Context, Next } from 'koa';
 import { HealthResponse } from './health-response.class';
 
 export const handler = async (ctx: Context, next: Next): Promise<void> => {
-  console.log('here');
   ctx.body = new HealthResponse(true);
-  console.log('here2!', ctx.body);
   try {
     await next();
   } catch (error) {
