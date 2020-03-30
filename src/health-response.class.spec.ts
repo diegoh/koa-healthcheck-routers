@@ -1,4 +1,3 @@
-import { name, version } from '../package.json';
 import { HealthResponse } from './health-response.class';
 
 describe('src/health-response.class', () => {
@@ -16,10 +15,10 @@ describe('src/health-response.class', () => {
   });
   it('sets the package name', () => {
     const response = new HealthResponse(true);
-    expect(response.name).toBe(name);
+    expect(response.name).toBe(process.env.npm_package_name);
   });
   it('sets the package version', () => {
     const response = new HealthResponse(true);
-    expect(response.version).toBe(version);
+    expect(response.version).toBe(process.env.npm_package_version);
   });
 });

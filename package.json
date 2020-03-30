@@ -4,10 +4,11 @@
   "description": "Handler for adding a health check endpoint to an API",
   "main": "./src/index.js",
   "scripts": {
+    "test": "jest",
     "test:unit": "NODE_ENV=test jest --testPathPattern src",
     "test:unit:watch": "npm run test:unit -- --watch",
     "test:coverage": "npm run test:unit -- --coverage",
-    "test:integration": "NODE_ENV=test jest --testPathPattern 'test\\/integration'",
+    "test:integration": "NODE_ENV=test jest --testPathPattern 'test'",
     "test:integration:watch": "npm run test:integration -- --watch",
     "lint": "eslint **/*.ts",
     "lint:fix": "eslint **/*.ts --fix",

@@ -11,8 +11,10 @@
     "removeComments": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "noImplicitAny": true,
+    "noFallthroughCasesInSwitch": true,
     "outDir": "dist",
-    "resolveJsonModule": true
+    "noErrorTruncation": true
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
