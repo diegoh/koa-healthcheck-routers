@@ -100,7 +100,7 @@ module.exports = {
         'global-require': 0
       },
       env: {
-        mocha: true
+        jest: true
       }
     }
   ]

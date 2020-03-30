@@ -9,6 +9,5 @@ module.exports = {
   timeout: 2000,
   forbidPending: true,
   checkLeaks: true,
-  recursive: true,
-  bail: true
+  recursive: true
 };

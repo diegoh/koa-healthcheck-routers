@@ -1,63 +1,45 @@
-import * as assert from 'assert';
 import * as Application from 'koa';
-import * as td from 'testdouble';
 import { HealthResponse } from './health-response.class';
 import { handler } from '.';
 
 describe('src/index', () => {
-  afterEach(() => {
-    td.reset();
-  });
+  let ctx: Application.Context;
+  const next = jest.fn();
 
-  it('sets a healthy response', async () => {
-    const ctx = {
+  beforeEach(() => {
+    ctx = {
       response: {
         body: null
       }
     } as Application.Context;
-
-    const next = td.function('next()') as Application.Next;
-
+  });
+  it('sets a healthy response', async () => {
     await handler(ctx, next);
 
     const expected = new HealthResponse(true);
 
-    assert.deepStrictEqual(ctx.body, expected);
+    expect(ctx.body).toEqual(expected);
   });
 
   it('sets an unhealthy response', async () => {
-    const ctx = {
-      response: {
-        body: null
-      }
-    } as Application.Context;
-
-    const next = td.function('next()') as Application.Next;
-
-    const error = new Error('Unhealthy API');
-    td.when(next()).thenReject(error);
+    next.mockImplementation(() => {
+      throw new Error('Unhealthy API');
+    });
 
     await handler(ctx, next);
 
     const expected = new HealthResponse(false);
 
-    assert.deepStrictEqual(ctx.body, expected);
+    expect(ctx.body).toEqual(expected);
   });
 
-  it('sets a 500 response', async () => {
-    const ctx = {
-      response: {
-        body: null
-      }
-    } as Application.Context;
-
-    const next = td.function('next()') as Application.Next;
-
-    const error = new Error('Unhealthy API');
-    td.when(next()).thenReject(error);
+  it('sets an error status code', async () => {
+    next.mockImplementation(() => {
+      throw new Error('Unhealthy API');
+    });
 
     await handler(ctx, next);
 
-    assert.deepStrictEqual(ctx.status, 500);
+    expect(ctx.status).toEqual(500);
   });
 });

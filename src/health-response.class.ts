@@ -5,7 +5,7 @@ export class HealthResponse {
 
   success: boolean;
 
-  constructor(success: boolean) {
+  constructor(success = false) {
     const { env } = process;
     this.version = env.npm_package_version;
     this.name = env.npm_package_name;
