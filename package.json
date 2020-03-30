@@ -2,7 +2,8 @@
   "name": "@diegoh/healthcheck",
   "version": "2.0.0",
   "description": "Handler for adding a health check endpoint to an API",
-  "main": "./src/index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest",
     "test:unit": "NODE_ENV=test jest --testPathPattern src",
@@ -12,7 +13,8 @@
     "test:integration:watch": "npm run test:integration -- --watch",
     "lint": "eslint **/*.ts",
     "lint:fix": "eslint **/*.ts --fix",
-    "snyk": "snyk test"
+    "snyk": "snyk test",
+    "prepublish": "tsc"
   },
   "repository": {
     "type": "git",
