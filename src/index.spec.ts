@@ -13,6 +13,7 @@ describe('src/index', () => {
       }
     } as Application.Context;
   });
+
   it('sets a healthy response', async () => {
     await handler(ctx, next);
 

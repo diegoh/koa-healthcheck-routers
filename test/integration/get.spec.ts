@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import * as HttpStatusCodes from 'http-status-codes';
 import { server } from './server';
 
@@ -16,10 +15,6 @@ describe('GET /health', () => {
       .set('Accept', 'application/json')
       .expect(HttpStatusCodes.OK);
 
-    assert.deepStrictEqual(Object.keys(response.body), [
-      'version',
-      'name',
-      'success'
-    ]);
+    expect(Object.keys(response.body)).toEqual(['version', 'name', 'success']);
   });
 });

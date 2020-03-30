@@ -1,8 +1,10 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  verbose: true,
   resetMocks: true,
-  collectCoverage: true
-  // collectCoverageFrom: ['src/**/*.{ts}', '!**/node_modules/**'],
+  verbose: true,
+  logHeapUsage: true,
+  notify: true,
+  testTimeout: 1000,
+  coverageDirectory: 'misc/.coverage'
 };
