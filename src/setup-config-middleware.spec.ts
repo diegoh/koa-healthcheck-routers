@@ -6,7 +6,7 @@ describe('src/setup-config-middleware', () => {
   let ctx: ParameterizedContext<DefaultState, any>;
   const urls = [
     new URL('http://localhost:1111/healthcheck'),
-    new URL('http://localhost:2222/healthcheck'),
+    new URL('http://localhost:2222/healthcheck')
   ];
 
   const next = jest.fn();
@@ -14,9 +14,9 @@ describe('src/setup-config-middleware', () => {
   it('sets up the urls in the request context', async () => {
     ctx = {
       response: {
-        body: null,
+        body: null
       },
-      state: undefined,
+      state: undefined
     };
 
     const middleware = setupConfigMiddleware(urls);
@@ -24,8 +24,8 @@ describe('src/setup-config-middleware', () => {
 
     expect(ctx.state).toEqual({
       healthchecks: {
-        http: urls,
-      },
+        http: urls
+      }
     });
   });
 });

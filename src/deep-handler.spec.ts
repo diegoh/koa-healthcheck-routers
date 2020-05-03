@@ -18,8 +18,8 @@ describe('src/deep-handler', () => {
   beforeEach(() => {
     ctx = {
       response: {
-        body: null,
-      },
+        body: null
+      }
     };
 
     checkHealthMock.mockClear();
@@ -45,7 +45,7 @@ describe('src/deep-handler', () => {
     beforeEach(() => {
       const httpHealthcheckServices = [
         new URL('http://localhost:1111'),
-        new URL('http://localhost:1112'),
+        new URL('http://localhost:1112')
       ];
 
       ctx.state = { healthchecks: { http: httpHealthcheckServices } };

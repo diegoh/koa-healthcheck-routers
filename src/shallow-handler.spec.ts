@@ -9,8 +9,8 @@ describe('src/deep-handler', () => {
   beforeEach(() => {
     ctx = {
       response: {
-        body: null,
-      },
+        body: null
+      }
     };
   });
 

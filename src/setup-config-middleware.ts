@@ -7,14 +7,14 @@ export const setupConfigMiddleware = (urls: URL[]): Middleware => {
       if (!ctx.state) {
         ctx.state = {
           healthchecks: {
-            http: urls,
-          },
+            http: urls
+          }
         };
       }
 
       if (!ctx.state.healthchecks) {
         ctx.state.healthchecks = {
-          http: urls,
+          http: urls
         };
       }
 

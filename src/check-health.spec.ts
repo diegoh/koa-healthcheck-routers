@@ -33,7 +33,7 @@ describe('src/check-health', () => {
 
       expect(axiosMock.get.mock.calls).toEqual([
         [mockServiceUrl1],
-        [mockServiceUrl2],
+        [mockServiceUrl2]
       ]);
     });
     it('sets the success status to true when all urls are ok', async () => {
