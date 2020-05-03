@@ -1,46 +1,15 @@
-import * as Application from 'koa';
-import { HealthResponse } from './health-response.class';
-import { handler } from '.';
+import { URL } from 'url';
+import * as KoaRouter from '@koa/router';
+import { HealthCheckRouter, HeartBeatRouter } from './index';
 
 describe('src/index', () => {
-  let ctx: Application.Context;
-  const next = jest.fn();
-
-  beforeEach(() => {
-    ctx = {
-      response: {
-        body: null
-      }
-    } as Application.Context;
+  it('exports a HealthCheckRouter that needs to be initialised', () => {
+    const router = new HealthCheckRouter([new URL('http://localhost:8888')]);
+    expect(router instanceof KoaRouter).toBeTruthy();
   });
 
-  it('sets a healthy response', async () => {
-    await handler(ctx, next);
-
-    const expected = new HealthResponse(true);
-
-    expect(ctx.body).toEqual(expected);
-  });
-
-  it('sets an unhealthy response', async () => {
-    next.mockImplementation(() => {
-      throw new Error('Unhealthy API');
-    });
-
-    await handler(ctx, next);
-
-    const expected = new HealthResponse(false);
-
-    expect(ctx.body).toEqual(expected);
-  });
-
-  it('sets an error status code', async () => {
-    next.mockImplementation(() => {
-      throw new Error('Unhealthy API');
-    });
-
-    await handler(ctx, next);
-
-    expect(ctx.status).toEqual(500);
+  it('exports a HeartBeatRouter that needs to be initialised', () => {
+    const router = new HeartBeatRouter();
+    expect(router instanceof KoaRouter).toBeTruthy();
   });
 });

@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12]
+        node-version: [14]
 
     steps:
       - uses: actions/checkout@v1
@@ -19,8 +19,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-          registry-url: 'https://registry.npmjs.org'
-          scope: '@diegoh'
+          registry-url: "https://registry.npmjs.org"
+          scope: "@diegoh"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
