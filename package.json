@@ -1,6 +1,6 @@
 {
   "name": "@diegoh/healthcheck",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Handler for adding a health check endpoint to an API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
