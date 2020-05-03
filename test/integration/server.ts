@@ -1,8 +1,11 @@
 import * as Koa from 'koa';
 import * as supertest from 'supertest';
-import { router } from '../../src/index';
+import { HttpHealthcheckRouter } from '../../src/index';
+import { urls } from '../fixtures/urls';
 
 const app = new Koa();
+const router = new HttpHealthcheckRouter(urls);
+
 app.use(router.routes());
 app.use(router.allowedMethods());
 

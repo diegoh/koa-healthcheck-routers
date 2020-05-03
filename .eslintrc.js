@@ -7,19 +7,19 @@ module.exports = {
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:import/typescript',
-    'prettier/@typescript-eslint'
+    'prettier/@typescript-eslint',
   ],
-  plugins: ['import'],
+  plugins: ['import', 'prettier'],
   parserOptions: {
     ecmaVersion: 2018,
-    sourceType: 'module'
+    sourceType: 'module',
   },
   settings: {
     'import/resolver': {
       node: {
-        extensions: ['.ts', '.tsx', '.js', '.jsx']
-      }
-    }
+        extensions: ['.ts', '.tsx', '.js', '.jsx'],
+      },
+    },
   },
   rules: {
     'sort-imports': [
@@ -28,8 +28,8 @@ module.exports = {
         ignoreCase: false,
         ignoreDeclarationSort: true,
         ignoreMemberSort: false,
-        memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single']
-      }
+        memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
+      },
     ],
     'import/order': [
       'error',
@@ -38,9 +38,9 @@ module.exports = {
         'newlines-between': 'never',
         alphabetize: {
           order: 'asc',
-          caseInsensitive: true
-        }
-      }
+          caseInsensitive: true,
+        },
+      },
     ],
     'import/prefer-default-export': 'off',
     'import/extensions': [
@@ -50,12 +50,12 @@ module.exports = {
         ts: 'never',
         js: 'never',
         mjs: 'never',
-        jsx: 'never'
-      }
+        jsx: 'never',
+      },
     ],
     'import/no-extraneous-dependencies': [
       'error',
-      { devDependencies: ['**/*.test.js', '**/*.spec.js'] }
+      { devDependencies: ['**/*.test.js', '**/*.spec.js'] },
     ],
     'import/no-extraneous-dependencies': [
       'error',
@@ -81,27 +81,27 @@ module.exports = {
           '**/Gruntfile{,.js}',
           '**/protractor.conf.js',
           '**/protractor.conf.*.js',
-          '**/karma.conf.js'
+          '**/karma.conf.js',
         ],
-        optionalDependencies: false
-      }
+        optionalDependencies: false,
+      },
     ],
     'prettier/prettier': [
       'error',
       {
-        singleQuote: true
-      }
-    ]
+        singleQuote: true,
+      },
+    ],
   },
   overrides: [
     {
       files: ['**/*.spec.ts'],
       rules: {
-        'global-require': 0
+        'global-require': 0,
       },
       env: {
-        jest: true
-      }
-    }
-  ]
+        jest: true,
+      },
+    },
+  ],
 };

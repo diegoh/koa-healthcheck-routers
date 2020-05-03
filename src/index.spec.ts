@@ -1,46 +1,19 @@
-import * as Application from 'koa';
-import { HealthResponse } from './health-response.class';
-import { handler } from '.';
+import { HttpHealthcheckRouter } from '.';
 
 describe('src/index', () => {
-  let ctx: Application.Context;
-  const next = jest.fn();
-
-  beforeEach(() => {
-    ctx = {
-      response: {
-        body: null
-      }
-    } as Application.Context;
-  });
-
-  it('sets a healthy response', async () => {
-    await handler(ctx, next);
-
-    const expected = new HealthResponse(true);
-
-    expect(ctx.body).toEqual(expected);
-  });
-
-  it('sets an unhealthy response', async () => {
-    next.mockImplementation(() => {
-      throw new Error('Unhealthy API');
+  describe('deep healthcheck setup', () => {
+    it('sets up the deep healthcheck endpoint', () => {
+      const router = new HttpHealthcheckRouter();
+      const route = router.stack[0];
+      expect(route.path).toEqual('/healthcheck');
     });
-
-    await handler(ctx, next);
-
-    const expected = new HealthResponse(false);
-
-    expect(ctx.body).toEqual(expected);
   });
 
-  it('sets an error status code', async () => {
-    next.mockImplementation(() => {
-      throw new Error('Unhealthy API');
+  describe('shallow heartbeat setup', () => {
+    it('sets up the shallow heartbeat endpoint', () => {
+      const router = new HttpHealthcheckRouter();
+      const route = router.stack[1];
+      expect(route.path).toEqual('/heartbeat');
     });
-
-    await handler(ctx, next);
-
-    expect(ctx.status).toEqual(500);
   });
 });
