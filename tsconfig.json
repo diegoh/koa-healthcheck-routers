@@ -1,23 +1,5 @@
 {
-  "compilerOptions": {
-    "declaration": true,
-    "target": "ES2020",
-    "lib": ["ES2020"],
-    "module": "CommonJS",
-    "moduleResolution": "Node",
-    "pretty": true,
-    "experimentalDecorators": true,
-    "traceResolution": true,
-    "forceConsistentCasingInFileNames": true,
-    "sourceMap": true,
-    "removeComments": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitAny": true,
-    "noFallthroughCasesInSwitch": true,
-    "outDir": "dist",
-    "noErrorTruncation": true
-  },
+  "extends": "@diegoh/tsconfig",
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }

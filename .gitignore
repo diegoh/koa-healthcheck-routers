@@ -66,3 +66,6 @@ misc
 .coverage
 coverage
 .DS_Store
+
+src/**/*.js
+test/**/*.js
