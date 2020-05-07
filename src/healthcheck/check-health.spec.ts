@@ -3,6 +3,7 @@ jest.mock('axios');
 
 import { URL } from 'url';
 import axios from 'axios';
+import * as HttpStatusCode from 'http-status-codes';
 import { mocked } from 'ts-jest/utils';
 import { checkHealth } from './check-health';
 
@@ -20,14 +21,18 @@ describe('src/check-health', () => {
     const urls = [new URL(mockServiceUrl1), new URL(mockServiceUrl2)];
 
     it('calls each url once', async () => {
-      axiosMock.get.mockImplementation(async () => ({ status: 200 }));
+      axiosMock.get.mockImplementation(async () => ({
+        status: HttpStatusCode.OK
+      }));
 
       await checkHealth(urls);
 
       expect(axiosMock.get.mock.calls.length).toBe(2);
     });
     it('calls the expected URL for the given url', async () => {
-      axiosMock.get.mockImplementation(async () => ({ status: 200 }));
+      axiosMock.get.mockImplementation(async () => ({
+        status: HttpStatusCode.OK
+      }));
 
       await checkHealth(urls);
 
@@ -37,7 +42,9 @@ describe('src/check-health', () => {
       ]);
     });
     it('sets the success status to true when all urls are ok', async () => {
-      axiosMock.get.mockImplementation(async () => ({ status: 200 }));
+      axiosMock.get.mockImplementation(async () => ({
+        status: HttpStatusCode.OK
+      }));
 
       const health = await checkHealth(urls);
       expect(health).toBe(true);
@@ -45,8 +52,10 @@ describe('src/check-health', () => {
 
     it('sets the success status to false when at least one of the urls is not ok', async () => {
       axiosMock.get
-        .mockImplementation(async () => ({ status: 200 }))
-        .mockImplementation(async () => ({ status: 500 }));
+        .mockImplementation(async () => ({ status: HttpStatusCode.OK }))
+        .mockImplementation(async () => ({
+          status: HttpStatusCode.INTERNAL_SERVER_ERROR
+        }));
 
       const health = await checkHealth(urls);
 
@@ -55,8 +64,18 @@ describe('src/check-health', () => {
 
     it('does not throw when the response from the service is not 200', async () => {
       axiosMock.get
-        .mockImplementation(async () => ({ status: 200 }))
-        .mockImplementation(async () => ({ status: 403 }));
+        .mockImplementation(async () => ({ status: HttpStatusCode.OK }))
+        .mockImplementation(async () => ({ status: HttpStatusCode.NOT_FOUND }));
+
+      const health = await checkHealth(urls);
+
+      expect(health).toBe(false);
+    });
+
+    it('catches and handles outgoing request errors', async () => {
+      axiosMock.get.mockImplementation(async () => {
+        throw new Error('ERRRR!!');
+      });
 
       const health = await checkHealth(urls);
 
