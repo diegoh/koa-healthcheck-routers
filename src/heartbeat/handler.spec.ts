@@ -1,8 +1,8 @@
 import { DefaultState, ParameterizedContext } from 'koa';
-import { Health } from './models/Health';
-import { shallowHandler } from './shallow-handler';
+import { Health } from '../Health';
+import { handler } from './handler';
 
-describe('src/deep-handler', () => {
+describe('src/heartbeat/handler', () => {
   const next = jest.fn();
   let ctx: ParameterizedContext<DefaultState, any>;
 
@@ -15,7 +15,7 @@ describe('src/deep-handler', () => {
   });
 
   it('sets a healthy response', async () => {
-    await shallowHandler(ctx, next);
+    await handler(ctx, next);
     const expected = new Health();
     expect(ctx.body).toEqual(expected);
   });

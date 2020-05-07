@@ -1,12 +1,15 @@
 import * as Koa from 'koa';
 import * as supertest from 'supertest';
-import { HttpHealthcheckRouter } from '../../src/index';
+import { HealthCheckRouter, HeartBeatRouter } from '../../src/index';
 import { urls } from '../fixtures/urls';
 
 const app = new Koa();
-const router = new HttpHealthcheckRouter(urls);
+const healthcheck = new HealthCheckRouter(urls);
+const heartbeat = new HeartBeatRouter();
 
-app.use(router.routes());
-app.use(router.allowedMethods());
+app.use(healthcheck.routes());
+app.use(healthcheck.allowedMethods());
+app.use(heartbeat.routes());
+app.use(heartbeat.allowedMethods());
 
 export const server = supertest(app.callback());

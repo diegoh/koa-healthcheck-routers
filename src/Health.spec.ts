@@ -1,6 +1,6 @@
 import { Health } from './Health';
 
-describe('src/models/Health', () => {
+describe('src/Health', () => {
   it('sets the package name', () => {
     const response = new Health();
     expect(response.name).toBe(process.env.npm_package_name);

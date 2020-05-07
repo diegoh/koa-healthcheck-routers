@@ -1,17 +1,17 @@
-name: Test
+name: Build
 
 on:
   push:
     branches-ignore:
-      - 'master'
+      - "master"
 
 jobs:
-  unit:
+  tests:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [12, 13]
+        node-version: [12, 14]
 
     steps:
       - uses: actions/checkout@v1
@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: "https://registry.npmjs.org"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -41,39 +41,6 @@ jobs:
 
       - name: test:coverage
         run: npm run test:coverage
-
-  integration:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [12, 13]
-
-    steps:
-      - uses: actions/checkout@v1
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-          registry-url: 'https://registry.npmjs.org'
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Cache node modules
-        uses: actions/cache@v1
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
-      - name: dependencies
-        run: npm ci
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: test:integration
         run: npm run test:integration
