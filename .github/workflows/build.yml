@@ -1,4 +1,4 @@
-name: Lint
+name: Build
 
 on:
   push:
@@ -6,12 +6,12 @@ on:
       - "master"
 
 jobs:
-  lint:
+  tests:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [14]
+        node-version: [12, 14]
 
     steps:
       - uses: actions/checkout@v1
@@ -41,3 +41,12 @@ jobs:
 
       - name: lint
         run: npm run lint
+
+      - name: audit
+        run: npm audit --registry=https://registry.npmjs.org
+
+      - name: test:coverage
+        run: npm run test:coverage
+
+      - name: test:integration
+        run: npm run test:integration
