@@ -8,9 +8,9 @@ import { INTERNAL_SERVER_ERROR } from 'http-status-codes';
 import { DefaultContext, ParameterizedContext } from 'koa';
 import { mocked } from 'ts-jest/utils';
 import { Health } from '../Health';
-import { HealthCheckState } from '../HealthCheckState';
 import { checkHealth } from './check-health';
 import { handler } from './handler';
+import { HealthCheckState } from './HealthCheckState';
 
 describe('src/deep-handler', () => {
   const next = jest.fn();

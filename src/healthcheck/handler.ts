@@ -1,8 +1,8 @@
 import { INTERNAL_SERVER_ERROR } from 'http-status-codes';
 import { DefaultContext, Next, ParameterizedContext } from 'koa';
 import { Health } from '../Health';
-import { HealthCheckState } from '../HealthCheckState';
 import { checkHealth } from './check-health';
+import { HealthCheckState } from './HealthCheckState';
 
 export const handler = async (
   ctx: ParameterizedContext<HealthCheckState, DefaultContext>,

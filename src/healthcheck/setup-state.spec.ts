@@ -1,6 +1,6 @@
 import { URL } from 'url';
 import { createMockContext } from '@shopify/jest-koa-mocks';
-import { HealthCheckState } from '../HealthCheckState';
+import { HealthCheckState } from './HealthCheckState';
 import { setupState } from './setup-state';
 
 describe('src/healthcheck/HealthCheckRouter', () => {

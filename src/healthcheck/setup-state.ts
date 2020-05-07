@@ -1,6 +1,6 @@
 import { URL } from 'url';
 import { DefaultContext, Middleware, Next, ParameterizedContext } from 'koa';
-import { HealthCheckState } from '../HealthCheckState';
+import { HealthCheckState } from './HealthCheckState';
 
 export const setupState = (urls: URL[]): Middleware => async (
   ctx: ParameterizedContext<HealthCheckState, DefaultContext>,
