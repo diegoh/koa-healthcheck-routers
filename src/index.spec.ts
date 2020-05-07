@@ -1,19 +1,15 @@
-import { HttpHealthcheckRouter } from '.';
+import { URL } from 'url';
+import * as KoaRouter from '@koa/router';
+import { HealthCheckRouter, HeartBeatRouter } from './index';
 
 describe('src/index', () => {
-  describe('deep healthcheck setup', () => {
-    it('sets up the deep healthcheck endpoint', () => {
-      const router = new HttpHealthcheckRouter();
-      const route = router.stack[0];
-      expect(route.path).toEqual('/healthcheck');
-    });
+  it('exports a HealthCheckRouter that needs to be initialised', () => {
+    const router = new HealthCheckRouter([new URL('http://localhost:8888')]);
+    expect(router instanceof KoaRouter).toBeTruthy();
   });
 
-  describe('shallow heartbeat setup', () => {
-    it('sets up the shallow heartbeat endpoint', () => {
-      const router = new HttpHealthcheckRouter();
-      const route = router.stack[1];
-      expect(route.path).toEqual('/heartbeat');
-    });
+  it('exports a HeartBeatRouter that needs to be initialised', () => {
+    const router = new HeartBeatRouter();
+    expect(router instanceof KoaRouter).toBeTruthy();
   });
 });
