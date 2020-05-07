@@ -1,5 +1,6 @@
 # @diegoh/healthcheck
 
+
 ![Build](https://github.com/diegoh/healthcheck/workflows/Build/badge.svg)
 
 This module exports a `HealthCheck` and a `HeartBeat` router.
