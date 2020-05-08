@@ -1,5 +1,5 @@
 import * as HttpStatusCodes from 'http-status-codes';
-import { nodeModuleNameRegex, semverRegex } from '../helpers';
+import { responseBodyMatchers } from '../helpers/response-body-matchers';
 import { server } from './server';
 
 describe('GET /heartbeat', () => {
@@ -16,9 +16,6 @@ describe('GET /heartbeat', () => {
       .set('Accept', 'application/json')
       .expect(HttpStatusCodes.OK);
 
-    expect(response.body).toMatchObject({
-      name: expect.stringMatching(nodeModuleNameRegex),
-      version: expect.stringMatching(semverRegex)
-    });
+    expect(response.body).toMatchObject(responseBodyMatchers);
   });
 });
