@@ -1,5 +1,5 @@
 {
-  "name": "@diegoh/healthcheck",
+  "name": "@diegoh/koa-healthcheck-routers",
   "version": "3.0.1",
   "description": "Handler for adding a health check endpoint to an API",
   "main": "dist/index.js",
@@ -18,14 +18,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/diegoh/healthcheck.git"
+    "url": "git+https://github.com/diegoh/koa-healthcheck-routers.git"
   },
   "author": "Diego Herrera",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/diegoh/healthcheck/issues"
+    "url": "https://github.com/diegoh/koa-healthcheck-routers/issues"
   },
-  "homepage": "https://github.com/diegoh/healthcheck#readme",
+  "homepage": "https://github.com/diegoh/koa-healthcheck-routers#readme",
   "dependencies": {
     "@koa/router": "^8.0.8",
     "axios": "^0.19.2",
