@@ -1,6 +1,6 @@
 {
-  "name": "@diegoh/healthcheck",
-  "version": "3.0.1",
+  "name": "@diegoh/koa-healthcheck-routers",
+  "version": "3.0.2",
   "description": "Handler for adding a health check endpoint to an API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,14 +18,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/diegoh/healthcheck.git"
+    "url": "git+https://github.com/diegoh/koa-healthcheck-routers.git"
   },
   "author": "Diego Herrera",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/diegoh/healthcheck/issues"
+    "url": "https://github.com/diegoh/koa-healthcheck-routers/issues"
   },
-  "homepage": "https://github.com/diegoh/healthcheck#readme",
+  "homepage": "https://github.com/diegoh/koa-healthcheck-routers#readme",
   "dependencies": {
     "@koa/router": "^8.0.8",
     "axios": "^0.19.2",
@@ -33,14 +33,14 @@
     "koa": "^2.11.0"
   },
   "devDependencies": {
-    "@diegoh/eslint-config-prettier-typescript-node": "^1.0.1",
-    "@diegoh/tsconfig": "^1.0.3",
+    "@diegoh/eslint-config-prettier-typescript-node": "^1.0.3",
+    "@diegoh/tsconfig": "^1.0.5",
     "@shopify/jest-koa-mocks": "^2.2.2",
     "@types/jest": "^25.2.1",
     "@types/koa": "^2.11.3",
     "@types/koa-bodyparser": "^4.3.0",
     "@types/koa__router": "^8.0.2",
-    "@types/node": "^13.13.4",
+    "@types/node": "^13.13.5",
     "@types/supertest": "^2.0.9",
     "eslint": "^6.8.0",
     "husky": "^4.2.5",
@@ -51,7 +51,7 @@
     "source-map-support": "^0.5.19",
     "supertest": "^4.0.2",
     "testdouble": "^3.13.1",
-    "ts-jest": "^25.4.0",
+    "ts-jest": "^25.5.0",
     "ts-node": "^8.10.1",
     "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "^3.8.3"
