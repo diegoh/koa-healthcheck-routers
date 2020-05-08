@@ -48,16 +48,6 @@ describe('src/deep-handler', () => {
     expect(next.mock.calls.length).toEqual(1);
   });
 
-  it('sets an unhealthy response', async () => {
-    checkHealthMock.mockImplementation(async () => false);
-
-    await handler(ctx, next);
-
-    const expected = new Health();
-
-    expect(ctx.body).toEqual(expected);
-  });
-
   it('sets an unhealthy response code', async () => {
     checkHealthMock.mockImplementation(async () => false);
 

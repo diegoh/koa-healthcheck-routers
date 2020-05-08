@@ -50,18 +50,6 @@ describe('src/check-health', () => {
       expect(health).toBe(true);
     });
 
-    it('sets the success status to false when at least one of the urls is not ok', async () => {
-      axiosMock.get
-        .mockImplementation(async () => ({ status: HttpStatusCode.OK }))
-        .mockImplementation(async () => ({
-          status: HttpStatusCode.INTERNAL_SERVER_ERROR
-        }));
-
-      const health = await checkHealth(urls);
-
-      expect(health).toBe(false);
-    });
-
     it('does not throw when the response from the service is not 200', async () => {
       axiosMock.get
         .mockImplementation(async () => ({ status: HttpStatusCode.OK }))
