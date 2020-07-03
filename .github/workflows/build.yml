@@ -42,17 +42,11 @@ jobs:
       - name: lint
         run: npm run lint
 
-<<<<<<< HEAD
       - name: test:unit
         run: npm run test:unit
-
-=======
-      - name: test:coverage
-        run: npm run test:coverage
 
       - name: test:integration
         run: npm run test:integration
 
->>>>>>> master
       - name: audit
         run: npm audit --production --registry=https://registry.npmjs.org
