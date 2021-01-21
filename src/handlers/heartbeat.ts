@@ -5,7 +5,7 @@ import {
   Next,
   ParameterizedContext
 } from 'koa';
-import { Health } from '../Health';
+import { Health } from '../models/Health';
 
 export const handler: Middleware = async (
   ctx: ParameterizedContext<DefaultState, DefaultContext>,

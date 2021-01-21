@@ -1,7 +1,7 @@
 import { createMockContext } from '@shopify/jest-koa-mocks';
 import { DefaultContext, DefaultState, ParameterizedContext } from 'koa';
-import { Health } from '../Health';
-import { handler } from './handler';
+import { Health } from '../models/Health';
+import { handler } from './heartbeat';
 
 describe('src/heartbeat/handler', () => {
   const next = jest.fn();

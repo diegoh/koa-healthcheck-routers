@@ -1,4 +1,4 @@
-import * as HttpStatusCodes from 'http-status-codes';
+import StatusCodes from 'http-status-codes';
 import * as nock from 'nock';
 import { nodeModuleNameRegex, semverRegex } from '../helpers';
 import { server } from './server';
@@ -12,7 +12,7 @@ describe('GET /healthcheck', () => {
     return server
       .get('/healthcheck')
       .set('Accept', 'application/json')
-      .expect(HttpStatusCodes.OK);
+      .expect(StatusCodes.OK);
   });
 
   it('returns a 500 upon error', async () => {
@@ -25,7 +25,7 @@ describe('GET /healthcheck', () => {
     await server
       .get('/healthcheck')
       .set('Accept', 'application/json')
-      .expect(HttpStatusCodes.INTERNAL_SERVER_ERROR);
+      .expect(StatusCodes.INTERNAL_SERVER_ERROR);
   });
 
   it('returns the expected response', async () => {
@@ -36,7 +36,7 @@ describe('GET /healthcheck', () => {
     const response = await server
       .get('/healthcheck')
       .set('Accept', 'application/json')
-      .expect(HttpStatusCodes.OK);
+      .expect(StatusCodes.OK);
 
     expect(response.body).toMatchObject({
       name: expect.stringMatching(nodeModuleNameRegex),

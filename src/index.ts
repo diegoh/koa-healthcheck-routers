@@ -1,2 +1,2 @@
-export { HealthCheckRouter } from './healthcheck/HealthCheckRouter';
-export { HeartBeatRouter } from './heartbeat/HeartBeatRouter';
+export { HealthCheckRouter } from './models/HealthCheckRouter';
+export { HeartBeatRouter } from './models/HeartBeatRouter';

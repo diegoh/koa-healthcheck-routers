@@ -1,4 +1,4 @@
-import * as HttpStatusCodes from 'http-status-codes';
+import StatusCodes from 'http-status-codes';
 import { responseBodyMatchers } from '../helpers/response-body-matchers';
 import { server } from './server';
 
@@ -7,14 +7,14 @@ describe('GET /heartbeat', () => {
     await server
       .get('/heartbeat')
       .set('Accept', 'application/json')
-      .expect(HttpStatusCodes.OK);
+      .expect(StatusCodes.OK);
   });
 
   it('returns the expected response', async () => {
     const response = await server
       .get('/heartbeat')
       .set('Accept', 'application/json')
-      .expect(HttpStatusCodes.OK);
+      .expect(StatusCodes.OK);
 
     expect(response.body).toMatchObject(responseBodyMatchers);
   });
