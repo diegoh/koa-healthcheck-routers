@@ -32,12 +32,8 @@ describe('GET /healthcheck', () => {
       );
     });
 
-    it('responds with a 200 status code', async () => {
-      await server.get(healthcheckPath).expect(StatusCodes.OK);
-    });
-
-    it('responds with the expected body', async () => {
-      const { body } = await server.get(healthcheckPath);
+    it('responds with the expected status code and body', async () => {
+      const { body } = await server.get(healthcheckPath).expect(StatusCodes.OK);
 
       const expected = new DeepResponse([
         new ServiceResponse({
@@ -67,14 +63,10 @@ describe('GET /healthcheck', () => {
       nockReplyWithNotFound('http://localhost:33333');
     });
 
-    it('responds with a 500 status code', async () => {
-      await server
+    it('responds with the expected status and body', async () => {
+      const { body } = await server
         .get(healthcheckPath)
         .expect(StatusCodes.INTERNAL_SERVER_ERROR);
-    });
-
-    it('responds with the expected body when a service is unhealthy', async () => {
-      const { body } = await server.get(healthcheckPath);
 
       const expected = new DeepResponse([
         new ServiceResponse({
