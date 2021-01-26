@@ -1,21 +1,16 @@
 import StatusCodes from 'http-status-codes';
-import { responseBodyMatchers } from '../helpers/response-body-matchers';
+import { BaseResponse } from '../../src/base/BaseResponse';
 import { server } from './server';
 
+const heartbeatPath = '/heartbeat';
 describe('GET /heartbeat', () => {
   it('returns a 200 upon success', async () => {
-    await server
-      .get('/heartbeat')
-      .set('Accept', 'application/json')
-      .expect(StatusCodes.OK);
+    await server.get(heartbeatPath).expect(StatusCodes.OK);
   });
 
   it('returns the expected response', async () => {
-    const response = await server
-      .get('/heartbeat')
-      .set('Accept', 'application/json')
-      .expect(StatusCodes.OK);
+    const { body } = await server.get(heartbeatPath);
 
-    expect(response.body).toMatchObject(responseBodyMatchers);
+    expect(body).toEqual(new BaseResponse());
   });
 });

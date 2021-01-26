@@ -1,46 +1,54 @@
 import StatusCodes from 'http-status-codes';
 import * as nock from 'nock';
-import { nodeModuleNameRegex, semverRegex } from '../helpers';
+import { ServiceResponse } from '../../src/base/ServiceResponse';
+import { DeepResponse } from '../../src/deep/DeepResponse';
 import { server } from './server';
 
 describe('GET /healthcheck', () => {
-  it('returns a 200 upon success', async () => {
-    nock('http://localhost:11111').get('/healthcheck').reply(200);
-    nock('http://localhost:22222').get('/healthcheck').reply(200);
-    nock('http://localhost:33333').get('/healthcheck').reply(200);
+  const healthcheckEndpoint = '/healthcheck';
+
+  const genServiceResponse = (
+    url: string,
+    status: number = StatusCodes.OK
+  ): ServiceResponse => {
+    const data = { example: StatusCodes.getStatusText(status) };
+    nock(url, { allowUnmocked: false })
+      .get(healthcheckEndpoint)
+      .reply(status, data);
+
+    return new ServiceResponse({
+      config: { url: url + healthcheckEndpoint },
+      data,
+      status
+    });
+  };
+
+  const urls = ['http://localhost:11111', 'http://localhost:22222'];
+
+  afterEach(nock.cleanAll);
+  afterAll(nock.restore);
+
+  it('the service responds with status 200 and the expected body', async () => {
+    const responses = new DeepResponse(
+      urls.map((url) => genServiceResponse(url))
+    );
 
     return server
-      .get('/healthcheck')
-      .set('Accept', 'application/json')
-      .expect(StatusCodes.OK);
+      .get(healthcheckEndpoint)
+      .expect(StatusCodes.OK, JSON.parse(JSON.stringify(responses)));
   });
 
-  it('returns a 500 upon error', async () => {
-    nock('http://localhost:11111').get('/healthcheck').reply(200);
-    nock('http://localhost:22222').get('/healthcheck').reply(200);
-    nock('http://localhost:33333')
-      .get('/healthcheck')
-      .reply(500, 'Internal Server Error');
+  it('the service responds with status 500 and the expected body', async () => {
+    const responses = new DeepResponse([
+      genServiceResponse(urls[0]),
+      genServiceResponse(urls[1], StatusCodes.NOT_FOUND)
+    ]);
 
-    await server
-      .get('/healthcheck')
-      .set('Accept', 'application/json')
-      .expect(StatusCodes.INTERNAL_SERVER_ERROR);
-  });
-
-  it('returns the expected response', async () => {
-    nock('http://localhost:11111').get('/healthcheck').reply(200);
-    nock('http://localhost:22222').get('/healthcheck').reply(200);
-    nock('http://localhost:33333').get('/healthcheck').reply(200);
-
-    const response = await server
-      .get('/healthcheck')
-      .set('Accept', 'application/json')
-      .expect(StatusCodes.OK);
-
-    expect(response.body).toMatchObject({
-      name: expect.stringMatching(nodeModuleNameRegex),
-      version: expect.stringMatching(semverRegex)
-    });
+    return server
+      .get(healthcheckEndpoint)
+      .expect(
+        StatusCodes.INTERNAL_SERVER_ERROR,
+        JSON.parse(JSON.stringify(responses))
+      );
   });
 });

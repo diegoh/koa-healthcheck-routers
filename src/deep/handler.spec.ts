@@ -7,65 +7,80 @@ import { createMockContext } from '@shopify/jest-koa-mocks';
 import StatusCodes from 'http-status-codes';
 import { DefaultContext, ParameterizedContext } from 'koa';
 import { mocked } from 'ts-jest/utils';
-import { Health } from '../../models/Health';
-import { HealthCheckState } from '../../models/HealthCheckState';
-import { ServiceErrorResponse } from '../../models/ServiceErrorResponse';
-import { ServiceOkResponse } from '../../models/ServiceOkResponse';
+import { ServiceResponse } from '../base/ServiceResponse';
+import { DeepResponse } from './DeepResponse';
+import { DeepState } from './DeepState';
+import { deepHandler } from './handler';
 import { performServiceCalls } from './performServiceCalls';
-import { handler } from '.';
 
 describe('handlers/healthcheck', () => {
   const next = jest.fn();
   const performServiceCallsMock = mocked(performServiceCalls, true);
-  let ctx: ParameterizedContext<HealthCheckState, DefaultContext>;
+  let ctx: ParameterizedContext<DeepState, DefaultContext>;
 
-  const healthyResponse = new Health([
-    new ServiceOkResponse({
+  const healthyResponse = [
+    new ServiceResponse({
+      config: {
+        url: 'http://localhost:1111'
+      },
+      status: StatusCodes.OK,
+      data: { healthy: 'good' }
+    }),
+    new ServiceResponse({
+      config: {
+        url: 'http://localhost:1112'
+      },
       status: StatusCodes.OK,
       data: { healthy: 'good' }
     })
-  ]);
+  ];
 
-  const errorResponse = new Health([
-    new ServiceErrorResponse({
+  const errorResponse = [
+    new ServiceResponse({
+      config: {
+        url: 'http://localhost:1111'
+      },
       status: StatusCodes.INTERNAL_SERVER_ERROR,
       data: { error: 'bad' }
     })
-  ]);
+  ];
 
   beforeEach(() => {
     ctx = createMockContext({
-      state: new HealthCheckState([
+      state: new DeepState([
         new URL('http://localhost:1111'),
         new URL('http://localhost:1112')
       ])
-    }) as ParameterizedContext<HealthCheckState, DefaultContext>;
+    }) as ParameterizedContext<DeepState, DefaultContext>;
 
+    next.mockClear();
     performServiceCallsMock.mockClear();
   });
 
   it('sets a healthy response', async () => {
     performServiceCallsMock.mockImplementation(async () => healthyResponse);
 
-    await handler(ctx, next);
+    await deepHandler(ctx, next);
 
-    const expected = new Health();
+    const expected = new DeepResponse(healthyResponse);
 
-    expect(ctx.body).toEqual(expected);
+    expect(JSON.parse(JSON.stringify(ctx.body))).toEqual(
+      JSON.parse(JSON.stringify(expected))
+    );
   });
 
   it('calls next upon success', async () => {
     performServiceCallsMock.mockImplementation(async () => healthyResponse);
 
-    await handler(ctx, next);
+    await deepHandler(ctx, next);
 
-    expect(next.mock.calls.length).toEqual(2);
+    expect(next.mock.calls.length).toEqual(1);
   });
 
   it('sets an unhealthy response code', async () => {
     performServiceCallsMock.mockImplementation(async () => errorResponse);
 
-    await handler(ctx, next);
+    await deepHandler(ctx, next);
 
     expect(ctx.status).toEqual(StatusCodes.INTERNAL_SERVER_ERROR);
   });

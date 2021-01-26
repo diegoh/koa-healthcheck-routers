@@ -1,9 +1,9 @@
-import { HeartBeatRouter } from './HeartBeatRouter';
+import { ShallowRouter } from './ShallowRouter';
 
-describe('HeartBeatRouter', () => {
+describe('ShallowRouter', () => {
   describe('heartbeat setup', () => {
     it('sets up the heartbeat endpoint', () => {
-      const router = new HeartBeatRouter();
+      const router = new ShallowRouter();
       const route = router.stack[0];
       expect(route.path).toEqual('/heartbeat');
     });

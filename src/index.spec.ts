@@ -1,15 +1,15 @@
 import { URL } from 'url';
 import * as KoaRouter from '@koa/router';
-import { HealthCheckRouter, HeartBeatRouter } from './index';
+import { DeepRouter, ShallowRouter } from './index';
 
 describe('src/index', () => {
-  it('exports a HealthCheckRouter that needs to be initialised', () => {
-    const router = new HealthCheckRouter([new URL('http://localhost:8888')]);
+  it('exports a DeepRouter that needs to be initialised', () => {
+    const router = new DeepRouter([new URL('http://localhost:8888')]);
     expect(router instanceof KoaRouter).toBeTruthy();
   });
 
-  it('exports a HeartBeatRouter that needs to be initialised', () => {
-    const router = new HeartBeatRouter();
+  it('exports a ShallowRouter that needs to be initialised', () => {
+    const router = new ShallowRouter();
     expect(router instanceof KoaRouter).toBeTruthy();
   });
 });

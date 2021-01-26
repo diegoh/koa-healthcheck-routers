@@ -1,6 +1,6 @@
 import { URL } from 'url';
 
-export class HealthCheckState {
+export class DeepState {
   httpHealthcheckUrls: URL[];
 
   constructor(urls: URL[]) {

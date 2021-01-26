@@ -25,7 +25,7 @@ If the service is up and running the endpoint will return `200 OK`. No response,
 ```js
 import * as Koa from 'koa';
 
-import { HealthCheckRouter, HeartBeatRouter } from '../../src/index';
+import { DeepRouter, ShallowRouter } from '../../src/index';
 
 const urls = [
   new URL('http://localhost:11111/healthcheck'),
@@ -34,8 +34,8 @@ const urls = [
 ];
 
 const app = new Koa();
-const healthcheck = new HealthCheckRouter(urls);
-const heartbeat = new HeartBeatRouter();
+const healthcheck = new DeepRouter(urls);
+const heartbeat = new ShallowRouter();
 
 app.use(healthcheck.routes());
 app.use(healthcheck.allowedMethods());

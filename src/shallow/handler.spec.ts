@@ -1,9 +1,9 @@
 import { createMockContext } from '@shopify/jest-koa-mocks';
 import { DefaultContext, DefaultState, ParameterizedContext } from 'koa';
-import { Health } from '../models/Health';
-import { handler } from './heartbeat';
+import { BaseResponse } from '../base/BaseResponse';
+import { shallowHealthHandler } from './handler';
 
-describe('src/heartbeat/handler', () => {
+describe('handlers/shallow', () => {
   const next = jest.fn();
   const ctx: ParameterizedContext<
     DefaultState,
@@ -11,8 +11,8 @@ describe('src/heartbeat/handler', () => {
   > = createMockContext();
 
   it('sets a healthy response', async () => {
-    await handler(ctx, next);
-    const expected = new Health();
+    await shallowHealthHandler(ctx, next);
+    const expected = new BaseResponse();
     expect(ctx.body).toEqual(expected);
   });
 });

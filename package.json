@@ -1,8 +1,11 @@
 {
   "name": "@diegoh/koa-healthcheck-routers",
-  "version": "3.1.3",
+  "version": "4.0.0",
   "description": "Handler for adding a health check endpoint to an API",
   "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "types": "dist/index.d.ts",
   "prettier": "@diegoh/eslint-config-prettier-typescript-node/src/prettier.js",
   "scripts": {
@@ -49,7 +52,7 @@
     "nock": "^13.0.6",
     "prettier": "^2.2.1",
     "source-map-support": "^0.5.19",
-    "supertest": "^6.0.1",
+    "supertest": "^6.1.3",
     "testdouble": "^3.16.1",
     "ts-jest": "^26.4.4",
     "ts-node": "^9.1.1",
