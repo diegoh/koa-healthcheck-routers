@@ -7,10 +7,9 @@ describe('DeepResponse', () => {
   const responseBody = { dummy: 'example' };
 
   describe('base properties', () => {
-    const health = new DeepResponse([]);
+    const { checks } = new DeepResponse([]);
 
     it('sets the checks', () => {
-      const { checks } = health;
       expect(checks).toStrictEqual([]);
     });
   });
@@ -33,20 +32,15 @@ describe('DeepResponse', () => {
       })
     ];
 
-    it('the checks property is set', () => {
-      const { checks } = new DeepResponse(healthyCheckResults);
-      expect(checks).toStrictEqual(healthyCheckResults);
-    });
+    const { isHealthy, output, status } = new DeepResponse(healthyCheckResults);
+
     it('isHealthy is true', () => {
-      const { isHealthy } = new DeepResponse(healthyCheckResults);
       expect(isHealthy).toBe(true);
     });
     it('output is null', () => {
-      const { output } = new DeepResponse(healthyCheckResults);
       expect(output).not.toBeDefined();
     });
     it('status is "pass"', () => {
-      const { status } = new DeepResponse(healthyCheckResults);
       expect(status).toStrictEqual(ServiceStatus.pass);
     });
   });
@@ -71,17 +65,14 @@ describe('DeepResponse', () => {
       })
     ];
 
-    it('sets the checks property', () => {
-      const { checks } = new DeepResponse(unhealthyCheckResults);
-      expect(checks).toStrictEqual(unhealthyCheckResults);
-    });
+    const { isHealthy, output, status } = new DeepResponse(
+      unhealthyCheckResults
+    );
+
     it('sets isHealthy to false', () => {
-      const { isHealthy } = new DeepResponse(unhealthyCheckResults);
       expect(isHealthy).toBe(false);
     });
     it('sets the error output', () => {
-      const { output } = new DeepResponse(unhealthyCheckResults);
-
       expect(output).toStrictEqual([
         {
           componentName: notFoundUrl,
@@ -90,7 +81,6 @@ describe('DeepResponse', () => {
       ]);
     });
     it('sets the status to "fail"', () => {
-      const { status } = new DeepResponse(unhealthyCheckResults);
       expect(status).toStrictEqual(ServiceStatus.fail);
     });
   });
