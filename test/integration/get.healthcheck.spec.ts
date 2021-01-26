@@ -64,10 +64,6 @@ describe('GET /healthcheck', () => {
     });
 
     it('responds with the expected status and body', async () => {
-      const { body } = await server
-        .get(healthcheckPath)
-        .expect(StatusCodes.INTERNAL_SERVER_ERROR);
-
       const expected = new DeepResponse([
         new ServiceResponse({
           status: StatusCodes.OK,
@@ -85,6 +81,10 @@ describe('GET /healthcheck', () => {
           config: { url: 'http://localhost:33333/healthcheck' }
         })
       ]);
+
+      const { body } = await server
+        .get(healthcheckPath)
+        .expect(StatusCodes.INTERNAL_SERVER_ERROR);
 
       expect(body).toEqual(expected);
     });
