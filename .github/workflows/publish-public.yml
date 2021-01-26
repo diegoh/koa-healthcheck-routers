@@ -3,7 +3,7 @@ name: Publish NPM - PUBLIC
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   npm:

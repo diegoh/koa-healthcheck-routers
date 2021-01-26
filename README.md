@@ -47,7 +47,7 @@ http.createServer(app.callback()).listen(3000);
 
 ## Development
 
-1. Create a new branch from `master` with a name relevant to the changes you're making. `git branch -b my-new-feature-description`
+1. Create a new branch from `main` with a name relevant to the changes you're making. `git branch -b my-new-feature-description`
 2. Push the branch and open a Pull Request.
 3. Request a code review, make sure all tests pass.
 4. Commits will be **Squash merged** into the mainline to keep things tidy.
