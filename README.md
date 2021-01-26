@@ -6,26 +6,28 @@
 
 This module exports 2 [`@koa/router`](https://github.com/koajs/router) routers.
 
-## 1. HealthCheck
+## 1. Deep Checks
 
-Provides a router with a single `GET /healthcheck` endpoint.
+Provides a router with a single `GET` route (defaults to `/healthcheck`).
 Requires an array of URLs to check as configuration.
 
-It checks each of the URLs provided, when all services return a `200 OK` status code the `/healthcheck` response will be `200 OK`. This means the service and underlying services are healthy.
+It checks each of the URLs provided. A `200 OK` response means the service can connect to all services.
 
-If any of the services fails to respond, or returns **any status code other than `200`**, the response for this endpoint will be `500 Internal Server Error`.
+If any of the services fails to respond, or returns **any status code other than `2xx`**, the response for this endpoint will be `500 Internal Server Error`.
 
-## 2. HeartBeat
+The details of the erros can be found in the response body.
 
-This is a cheap and shallow check for the current service itself, it does not check any underlying services.
-If the service is up and running the endpoint will return `200 OK`. No response, or `500 Internal Server Error` means the service is down.
+## 2. Shallow Checks
+
+Cheap check for the service itself, it does not check any underlying services.
+Similarly, a `200` status code means the service is up.
 
 ## Example
 
 ```js
 import * as Koa from 'koa';
 
-import { DeepRouter, ShallowRouter } from '../../src/index';
+import { DeepRouter, ShallowRouter } from '@diegoh/koa-healthcheck-routers';
 
 const urls = [
   new URL('http://localhost:11111/healthcheck'),
@@ -42,7 +44,7 @@ app.use(healthcheck.allowedMethods());
 app.use(heartbeat.routes());
 app.use(heartbeat.allowedMethods());
 
-http.createServer(app.callback()).listen(3000);
+app.listen(3000);
 ```
 
 ## Development
