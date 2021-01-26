@@ -5,88 +5,50 @@ import { DeepResponse } from '../../src/deep/DeepResponse';
 import { server } from './server';
 
 describe('GET /healthcheck', () => {
-  const healthcheckPath = '/healthcheck';
-  const serviceResponseBody = { example: 'sometimes' };
+  const healthcheckEndpoint = '/healthcheck';
 
-  const nockReplyWithSuccess = (...urls: string[]): void =>
-    urls.forEach((url) => {
-      nock(url).get(healthcheckPath).reply(StatusCodes.OK, serviceResponseBody);
-    });
+  const genServiceResponse = (
+    url: string,
+    status: number = StatusCodes.OK
+  ): ServiceResponse => {
+    const data = { example: StatusCodes.getStatusText(status) };
+    nock(url, { allowUnmocked: false })
+      .get(healthcheckEndpoint)
+      .reply(status, data);
 
-  const nockReplyWithNotFound = (...urls: string[]): void =>
-    urls.forEach((url) => {
-      nock(url)
-        .get(healthcheckPath)
-        .reply(StatusCodes.NOT_FOUND, serviceResponseBody);
+    return new ServiceResponse({
+      config: { url: url + healthcheckEndpoint },
+      data,
+      status
     });
+  };
+
+  const urls = ['http://localhost:11111', 'http://localhost:22222'];
 
   afterEach(nock.cleanAll);
   afterAll(nock.restore);
 
-  describe('when all services are healthy', () => {
-    beforeEach(() => {
-      nockReplyWithSuccess(
-        'http://localhost:11111',
-        'http://localhost:22222',
-        'http://localhost:33333'
-      );
-    });
+  it('the service responds with status 200 and the expected body', async () => {
+    const responses = new DeepResponse(
+      urls.map((url) => genServiceResponse(url))
+    );
 
-    it('responds with the expected status code and body', async () => {
-      const { body } = await server.get(healthcheckPath).expect(StatusCodes.OK);
-
-      const expected = new DeepResponse([
-        new ServiceResponse({
-          status: StatusCodes.OK,
-          data: serviceResponseBody,
-          config: { url: 'http://localhost:11111/healthcheck' }
-        }),
-        new ServiceResponse({
-          status: StatusCodes.OK,
-          data: serviceResponseBody,
-          config: { url: 'http://localhost:22222/healthcheck' }
-        }),
-        new ServiceResponse({
-          status: StatusCodes.OK,
-          data: serviceResponseBody,
-          config: { url: 'http://localhost:33333/healthcheck' }
-        })
-      ]);
-
-      expect(body).toEqual(expected);
-    });
+    return server
+      .get(healthcheckEndpoint)
+      .expect(StatusCodes.OK, JSON.parse(JSON.stringify(responses)));
   });
 
-  describe('when some services are unhealthy', () => {
-    beforeEach(() => {
-      nockReplyWithSuccess('http://localhost:11111', 'http://localhost:22222');
-      nockReplyWithNotFound('http://localhost:33333');
-    });
+  it('the service responds with status 500 and the expected body', async () => {
+    const responses = new DeepResponse([
+      genServiceResponse(urls[0]),
+      genServiceResponse(urls[1], StatusCodes.NOT_FOUND)
+    ]);
 
-    it('responds with the expected status and body', async () => {
-      const expected = new DeepResponse([
-        new ServiceResponse({
-          status: StatusCodes.OK,
-          data: serviceResponseBody,
-          config: { url: 'http://localhost:11111/healthcheck' }
-        }),
-        new ServiceResponse({
-          status: StatusCodes.OK,
-          data: serviceResponseBody,
-          config: { url: 'http://localhost:22222/healthcheck' }
-        }),
-        new ServiceResponse({
-          status: StatusCodes.NOT_FOUND,
-          data: serviceResponseBody,
-          config: { url: 'http://localhost:33333/healthcheck' }
-        })
-      ]);
-
-      const { body } = await server
-        .get(healthcheckPath)
-        .expect(StatusCodes.INTERNAL_SERVER_ERROR);
-
-      expect(body).toEqual(expected);
-    });
+    return server
+      .get(healthcheckEndpoint)
+      .expect(
+        StatusCodes.INTERNAL_SERVER_ERROR,
+        JSON.parse(JSON.stringify(responses))
+      );
   });
 });
