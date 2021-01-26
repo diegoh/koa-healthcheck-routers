@@ -1,46 +1,100 @@
 import StatusCodes from 'http-status-codes';
 import * as nock from 'nock';
-import { nodeModuleNameRegex, semverRegex } from '../helpers';
+import { ServiceResponse } from '../../src/base/ServiceResponse';
+import { DeepResponse } from '../../src/deep/DeepResponse';
 import { server } from './server';
 
 describe('GET /healthcheck', () => {
-  it('returns a 200 upon success', async () => {
-    nock('http://localhost:11111').get('/healthcheck').reply(200);
-    nock('http://localhost:22222').get('/healthcheck').reply(200);
-    nock('http://localhost:33333').get('/healthcheck').reply(200);
+  const healthcheckPath = '/healthcheck';
+  const serviceResponseBody = { example: 'sometimes' };
 
-    return server
-      .get('/healthcheck')
-      .set('Accept', 'application/json')
-      .expect(StatusCodes.OK);
+  const nockReplyWithSuccess = (...urls: string[]): void =>
+    urls.forEach((url) => {
+      nock(url).get(healthcheckPath).reply(StatusCodes.OK, serviceResponseBody);
+    });
+
+  const nockReplyWithNotFound = (...urls: string[]): void =>
+    urls.forEach((url) => {
+      nock(url)
+        .get(healthcheckPath)
+        .reply(StatusCodes.NOT_FOUND, serviceResponseBody);
+    });
+
+  afterEach(nock.cleanAll);
+  afterAll(nock.restore);
+
+  describe('when all services are healthy', () => {
+    beforeEach(() => {
+      nockReplyWithSuccess(
+        'http://localhost:11111',
+        'http://localhost:22222',
+        'http://localhost:33333'
+      );
+    });
+
+    it('responds with a 200 status code', async () => {
+      await server.get(healthcheckPath).expect(StatusCodes.OK);
+    });
+
+    it('responds with the expected body', async () => {
+      const { body } = await server.get(healthcheckPath);
+
+      const expected = new DeepResponse([
+        new ServiceResponse({
+          status: StatusCodes.OK,
+          data: serviceResponseBody,
+          config: { url: 'http://localhost:11111/healthcheck' }
+        }),
+        new ServiceResponse({
+          status: StatusCodes.OK,
+          data: serviceResponseBody,
+          config: { url: 'http://localhost:22222/healthcheck' }
+        }),
+        new ServiceResponse({
+          status: StatusCodes.OK,
+          data: serviceResponseBody,
+          config: { url: 'http://localhost:33333/healthcheck' }
+        })
+      ]);
+
+      expect(body).toEqual(expected);
+    });
   });
 
-  it('returns a 500 upon error', async () => {
-    nock('http://localhost:11111').get('/healthcheck').reply(200);
-    nock('http://localhost:22222').get('/healthcheck').reply(200);
-    nock('http://localhost:33333')
-      .get('/healthcheck')
-      .reply(500, 'Internal Server Error');
+  describe('when some services are unhealthy', () => {
+    beforeEach(() => {
+      nockReplyWithSuccess('http://localhost:11111', 'http://localhost:22222');
+      nockReplyWithNotFound('http://localhost:33333');
+    });
 
-    await server
-      .get('/healthcheck')
-      .set('Accept', 'application/json')
-      .expect(StatusCodes.INTERNAL_SERVER_ERROR);
-  });
+    it('responds with a 500 status code', async () => {
+      await server
+        .get(healthcheckPath)
+        .expect(StatusCodes.INTERNAL_SERVER_ERROR);
+    });
 
-  it('returns the expected response', async () => {
-    nock('http://localhost:11111').get('/healthcheck').reply(200);
-    nock('http://localhost:22222').get('/healthcheck').reply(200);
-    nock('http://localhost:33333').get('/healthcheck').reply(200);
+    it('responds with the expected body when a service is unhealthy', async () => {
+      const { body } = await server.get(healthcheckPath);
 
-    const response = await server
-      .get('/healthcheck')
-      .set('Accept', 'application/json')
-      .expect(StatusCodes.OK);
+      const expected = new DeepResponse([
+        new ServiceResponse({
+          status: StatusCodes.OK,
+          data: serviceResponseBody,
+          config: { url: 'http://localhost:11111/healthcheck' }
+        }),
+        new ServiceResponse({
+          status: StatusCodes.OK,
+          data: serviceResponseBody,
+          config: { url: 'http://localhost:22222/healthcheck' }
+        }),
+        new ServiceResponse({
+          status: StatusCodes.NOT_FOUND,
+          data: serviceResponseBody,
+          config: { url: 'http://localhost:33333/healthcheck' }
+        })
+      ]);
 
-    expect(response.body).toMatchObject({
-      name: expect.stringMatching(nodeModuleNameRegex),
-      version: expect.stringMatching(semverRegex)
+      expect(body).toEqual(expected);
     });
   });
 });
